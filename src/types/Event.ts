@@ -8,17 +8,17 @@ export interface Result {
   awayGoals: number;
 }
 
-export interface Match {
+export interface Event {
   season: number;
-  status: string;
+  status?: string;
   timeVenueUTC: string;
   dateVenue: string;
-  homeTeam: Team;
-  awayTeam: Team;
-  result: Result;
-  sport: string;
+  homeTeam?: Team;
+  awayTeam?: Team;
+  result?: Result;
+  sport?: string;
 }
 
-export interface MatchesData {
-  data: Match[];
+export interface EventsData {
+  data: Event[];
 }
