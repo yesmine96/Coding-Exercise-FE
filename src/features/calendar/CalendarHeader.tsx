@@ -7,7 +7,7 @@ interface CalendarHeaderProps {
 
 const CalendarHeader: React.FC<CalendarHeaderProps> = ({ monthName, year }) => {
   return (
-    <div className="text-center py-8 lg:py-14">
+    <div className="text-center py-6 lg:py-14">
       <h2 className="text-3xl lg:text-5xl font-bold">
         {monthName} {year}
       </h2>

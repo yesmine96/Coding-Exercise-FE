@@ -1,11 +1,13 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import Day from "./Day";
 import type { Event, EventsData } from "../../types/Event";
 import { useFetch } from "../../hooks/useFetch";
+import EventPopup from "./EventPopup";
+import { usePopup } from "../../hooks/usePopup";
 
 export type EventItem = Pick<
   Event,
-  "sport" | "homeTeam" | "awayTeam" | "dateVenue"
+  "sport" | "homeTeam" | "awayTeam" | "dateVenue" | "timeVenueUTC"
 >;
 interface CalendarProps {
   year: number;
@@ -14,11 +16,16 @@ interface CalendarProps {
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
+  const popup = usePopup();
+  const [selectedEvents, setSelectedEvents] = useState<EventItem[]>([]);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+
   const {
     data: fetched,
     loading,
     error,
   } = useFetch<EventsData>("/data/events.json");
+
   const eventsList: EventItem[] = fetched?.data ?? [];
 
   const firstDay = new Date(year, month, 1);
@@ -40,26 +47,50 @@ const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
 
   return (
     <div>
-      <div className="grid grid-cols-7 gap-2 text-center font-semibold mb-2 pt-36 text-primary">
+      <div className="grid grid-cols-7 lg:gap-2 text-center font-semibold mb-2 text-primary ">
         {weekdays.map((d) => (
-          <div key={d}>{d}</div>
+          <div className="border-b-1 border-secondary" key={d}>
+            {d}
+          </div>
         ))}
       </div>
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7  lg:gap-2 ">
         {daysArray.map((day, index) =>
           day ? (
-            <Day
+            <div
               key={index}
-              day={day}
-              events={eventsList.filter(
-                (event) => event.dateVenue === getDateString(day)
-              )}
-            />
+              className="min-h-26 border-b-1"
+              onClick={() => {
+                const dayEvents = eventsList.filter(
+                  (event) => event.dateVenue === getDateString(day)
+                );
+                setSelectedEvents(dayEvents);
+                setSelectedDate(getDateString(day));
+                popup.openPopup();
+              }}
+            >
+              <Day
+                key={index}
+                day={day}
+                events={eventsList.filter(
+                  (event) => event.dateVenue === getDateString(day)
+                )}
+              />
+            </div>
           ) : (
-            <div key={index} className="invisible" />
+            <div key={index} className=" border-b-1" />
           )
         )}
       </div>
+
+      {popup.open && (
+        <EventPopup
+          events={selectedEvents}
+          open={popup.open}
+          onClose={popup.closePopup}
+          selectedDate={selectedDate}
+        />
+      )}
     </div>
   );
 };

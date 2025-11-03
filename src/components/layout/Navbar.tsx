@@ -94,10 +94,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu */}
       <div
-        className={clsx(
-          "md:hidden bg-secondary",
-          isOpen ? "h-full opacity-100" : "max-h-0 opacity-0"
-        )}
+        className={clsx("md:hidden bg-secondary", isOpen ? "h-full" : "hidden")}
       >
         <div className="px-4 pt-2 pb-4 space-y-3 text-xl font-semibold">
           {navLinks.map((link) => (
