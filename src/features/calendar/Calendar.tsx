@@ -1,9 +1,9 @@
 import React, { useMemo, useState } from "react";
 import Day from "./Day";
-import type { Event, EventsData } from "../../types/Event";
-import { useFetch } from "../../hooks/useFetch";
+import type { Event } from "../../types/Event";
 import EventPopup from "./EventPopup";
 import { usePopup } from "../../hooks/usePopup";
+import { useEvents } from "../../contexts/EventContext";
 
 export type EventItem = Pick<
   Event,
@@ -20,19 +20,14 @@ const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
   const [selectedEvents, setSelectedEvents] = useState<EventItem[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
 
-  const {
-    data: fetched,
-    loading,
-    error,
-  } = useFetch<EventsData>("/data/events.json");
-
-  const eventsList: EventItem[] = fetched?.data ?? [];
+  const { events, loading, error } = useEvents();
 
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
   const daysInMonth = lastDay.getDate();
   const startDay = firstDay.getDay();
 
+  // Create an array of days for the month
   const daysArray = useMemo(() => {
     const arr: (number | null)[] = [];
     for (let i = 0; i < startDay; i++) arr.push(null);
@@ -40,8 +35,10 @@ const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
     return arr;
   }, [startDay, daysInMonth]);
 
+  // Return date in "YYYY-MM-DD" format
   const getDateString = (day: number) =>
     `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+
   if (loading) return <div className="p-6">Loading events…</div>;
   if (error) return <div className="p-6 text-red-600">Error: {error}</div>;
 
@@ -61,9 +58,10 @@ const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
               key={index}
               className="min-h-26 border-b-1"
               onClick={() => {
-                const dayEvents = eventsList.filter(
-                  (event) => event.dateVenue === getDateString(day)
-                );
+                const dayEvents =
+                  events?.filter(
+                    (event) => event.dateVenue === getDateString(day)
+                  ) ?? [];
                 setSelectedEvents(dayEvents);
                 setSelectedDate(getDateString(day));
                 popup.openPopup();
@@ -72,9 +70,11 @@ const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
               <Day
                 key={index}
                 day={day}
-                events={eventsList.filter(
-                  (event) => event.dateVenue === getDateString(day)
-                )}
+                events={
+                  events?.filter(
+                    (event) => event.dateVenue === getDateString(day)
+                  ) ?? []
+                }
               />
             </div>
           ) : (
