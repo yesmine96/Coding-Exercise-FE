@@ -1,14 +1,11 @@
 import React from "react";
-import type { Event } from "../../types/Event";
+import type { CalendarEvent } from "../../types/Event";
 import Popup from "../../components/ui/Popup";
 import { formatDate } from "../../utils/formatDate";
+import { getTeams } from "../../utils/eventUtils";
 
-export type EventItem = Pick<
-  Event,
-  "sport" | "homeTeam" | "awayTeam" | "timeVenueUTC"
->;
 interface EventPopupProps {
-  events: EventItem[];
+  events: CalendarEvent[];
   open: boolean;
   onClose: () => void;
   selectedDate: string;
@@ -32,10 +29,7 @@ const EventPopup: React.FC<EventPopupProps> = ({
         ) : (
           <ul className="flex flex-col gap-2">
             {events.map((ev, i) => {
-              const home =
-                ev.homeTeam?.abbreviation ?? ev.homeTeam?.officialName ?? "—";
-              const away =
-                ev.awayTeam?.abbreviation ?? ev.awayTeam?.officialName ?? "—";
+              const { homeTeam, awayTeam, isTBD } = getTeams(ev);
 
               return (
                 <li
@@ -45,10 +39,17 @@ const EventPopup: React.FC<EventPopupProps> = ({
                   <span className="w-2 h-2 bg-primary rounded-full mt-1" />
                   <div className="text-sm">
                     <div className="font-semibold text-gray-800">
-                      {ev.sport ?? "—"}
+                      {ev.sport}
                     </div>
-                    <div className="text-xs text-gray-600 hidden lg:block">
-                      {home} vs {away}
+                    <div className="text-xs text-gray-600 hidden lg:flex lg:gap-1">
+                      <span>
+                        {homeTeam} vs {awayTeam}
+                      </span>
+                      {isTBD && ev.stage?.name && (
+                        <span className="text-muted-foreground">
+                          ({ev.stage.name})
+                        </span>
+                      )}
                     </div>
                     <div className="text-xs text-gray-600">
                       {ev.timeVenueUTC.slice(0, 5)}

@@ -1,42 +1,40 @@
-import React from "react";
-import type { Event } from "../../types/Event";
-export type EventItem = Pick<
-  Event,
-  "sport" | "homeTeam" | "awayTeam" | "dateVenue"
->;
+import React, { useMemo } from "react";
+import type { CalendarEvent } from "../../types/Event";
+import { getTeams } from "../../utils/eventUtils";
 
 interface DayProps {
   day: number;
-  events: EventItem[];
+  events: CalendarEvent[];
 }
 
 const Day: React.FC<DayProps> = ({ day, events }) => {
+  const displayedEvents = useMemo(() => events.slice(0, 3), [events]);
+
   return (
     <div className="lg:p-2 md:min-h-20 pt-2">
       <span className="font-semibold">{day}</span>
-      <div className=" py-1">
-        {events.slice(0, 3).map((event, id) => {
-          const homeTeam =
-            event.homeTeam?.abbreviation ?? event.homeTeam?.officialName ?? "—";
-          const awayTeam =
-            event.awayTeam?.abbreviation ?? event.awayTeam?.officialName ?? "—";
-
+      <div className="py-1 space-y-1">
+        {displayedEvents.map((event, index) => {
+          const { homeTeam, awayTeam, isTBD } = getTeams(event);
           return (
-            <div className="flex gap-1 items-start" key={id}>
-              <span className="w-1 h-1 lg:w-2 lg:h-2 bg-primary rounded-full mt-1"></span>
-              <div className="text-xs lg:text-sm flex gap-1">
-                <span className="font-semibold">{event.sport}</span>
+            <div key={index} className="flex gap-1 items-start">
+              <span className="w-1 h-1 bg-primary rounded-full mt-1.5 lg:mt-2" />
+              <div className="text-xs flex gap-1 flex-wrap">
+                <span className="font-semibold">
+                  {event.sport?.slice(0, 4)}
+                </span>
                 <span className="hidden lg:block">
                   {homeTeam} vs {awayTeam}
                 </span>
+                {isTBD && event.stage?.name && (
+                  <span className="hidden lg:block ">({event.stage.name})</span>
+                )}
               </div>
             </div>
           );
         })}
 
-        {events.length > 3 && (
-          <div className="text-xs lg:text-sm mt-1">more ...</div>
-        )}
+        {events.length > 3 && <div className="text-xs mt-1">more ...</div>}
       </div>
     </div>
   );

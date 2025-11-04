@@ -1,14 +1,10 @@
 import React, { useMemo, useState } from "react";
 import Day from "./Day";
-import type { Event } from "../../types/Event";
 import EventPopup from "./EventPopup";
 import { usePopup } from "../../hooks/usePopup";
 import { useEvents } from "../../contexts/EventContext";
+import type { CalendarEvent } from "../../types/Event";
 
-export type EventItem = Pick<
-  Event,
-  "sport" | "homeTeam" | "awayTeam" | "dateVenue" | "timeVenueUTC"
->;
 interface CalendarProps {
   year: number;
   month: number;
@@ -17,7 +13,7 @@ const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
   const popup = usePopup();
-  const [selectedEvents, setSelectedEvents] = useState<EventItem[]>([]);
+  const [selectedEvents, setSelectedEvents] = useState<CalendarEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
 
   const { events, loading, error } = useEvents();
