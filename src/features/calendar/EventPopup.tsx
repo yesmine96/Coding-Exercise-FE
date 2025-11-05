@@ -3,6 +3,7 @@ import type { CalendarEvent } from "../../types/Event";
 import Popup from "../../components/ui/Popup";
 import { formatDate } from "../../utils/formatDate";
 import { getTeams } from "../../utils/eventUtils";
+import { useNavigate } from "react-router-dom";
 
 interface EventPopupProps {
   events: CalendarEvent[];
@@ -16,6 +17,7 @@ const EventPopup: React.FC<EventPopupProps> = ({
   onClose,
   selectedDate,
 }) => {
+  const navigate = useNavigate();
   return (
     <Popup
       open={open}
@@ -34,7 +36,8 @@ const EventPopup: React.FC<EventPopupProps> = ({
               return (
                 <li
                   key={i}
-                  className="flex gap-2 items-start bg-gray-50 p-2 rounded shadow-sm"
+                  className="flex gap-2 items-start bg-gray-50 p-2 rounded shadow-sm cursor-pointer"
+                  onClick={() => navigate(`/event/${ev.id}`)}
                 >
                   <span className="w-2 h-2 bg-primary rounded-full mt-1" />
                   <div className="text-sm">

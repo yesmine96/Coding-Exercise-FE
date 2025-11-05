@@ -23,6 +23,7 @@ export interface Event {
   result?: Result;
   sport: string;
   stage?: Stage;
+  id: string;
 }
 
 export interface EventsData {
@@ -30,5 +31,11 @@ export interface EventsData {
 }
 export type CalendarEvent = Pick<
   Event,
-  "sport" | "homeTeam" | "awayTeam" | "dateVenue" | "timeVenueUTC" | "stage"
+  | "sport"
+  | "homeTeam"
+  | "awayTeam"
+  | "dateVenue"
+  | "timeVenueUTC"
+  | "stage"
+  | "id"
 >;
