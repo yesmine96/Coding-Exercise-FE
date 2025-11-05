@@ -24,6 +24,7 @@ export interface Event {
   sport: string;
   stage?: Stage;
   id: string;
+  originCompetitionName: string;
 }
 
 export interface EventsData {

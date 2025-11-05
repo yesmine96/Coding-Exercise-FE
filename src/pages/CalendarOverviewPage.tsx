@@ -7,9 +7,8 @@ const monthName = today.toLocaleString("default", { month: "long" });
 
 export default function CalendarOverviewPage() {
   return (
-    <div className="px-2 lg:px-16 pt-28 ">
+    <div className="px-2 lg:px-16">
       <CalendarHeader monthName={monthName} year={year} />
-
       <Calendar year={year} month={month} />
     </div>
   );
