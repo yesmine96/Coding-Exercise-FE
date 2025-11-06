@@ -4,17 +4,17 @@ export interface Team {
 }
 
 export interface Result {
-  homeGoals: number;
-  awayGoals: number;
+  homeGoals?: number;
+  awayGoals?: number;
 }
 export interface Stage {
-  id: number;
-  name: number;
-  ordering: number;
+  id?: string;
+  name?: string;
+  ordering?: number;
 }
 
 export interface Event {
-  season: number;
+  season?: number;
   status?: string;
   timeVenueUTC: string;
   dateVenue: string;
@@ -23,7 +23,7 @@ export interface Event {
   result?: Result;
   sport: string;
   stage?: Stage;
-  id: string;
+  id?: string;
   originCompetitionName: string;
 }
 
