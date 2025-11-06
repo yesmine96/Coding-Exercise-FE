@@ -18,8 +18,8 @@ const Day: React.FC<DayProps> = ({ day, events }) => {
     const DESKTOP_BREAKPOINT = 768;
     if (window.innerWidth >= DESKTOP_BREAKPOINT) {
       e.stopPropagation();
+      navigate(`/event/${event.id}`);
     }
-    navigate(`/event/${event.id}`);
   };
 
   return (
@@ -31,7 +31,7 @@ const Day: React.FC<DayProps> = ({ day, events }) => {
           return (
             <div
               key={index}
-              className="flex gap-1 items-start cursor-pointer hover:text-primary"
+              className="flex gap-1 items-start cursor-pointer hover:text-primary w-fit"
               onClick={(e) => viewEventDetails(event, e)}
             >
               <span className="w-1 h-1 bg-primary rounded-full mt-1.5 xl:mt-2" />

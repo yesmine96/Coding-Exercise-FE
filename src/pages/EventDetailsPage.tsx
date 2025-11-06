@@ -5,7 +5,7 @@ export default function EventDetailsPage() {
   const { id } = useParams();
   const { getEventById } = useEvents();
   const event = getEventById(id!);
-  console.log(event);
+
   return (
     <div className="py-16 flex items-center justify-center">
       <div className="bg-white rounded shadow-lg shadow p-4 lg:p-8 w-sm lg:w-xl bg-white min-h-72">
