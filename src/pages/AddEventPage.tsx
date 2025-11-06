@@ -3,13 +3,20 @@ import Input from "../components/ui/Input";
 import type { Event } from "../types/Event";
 import SelectInput from "../components/ui/SelectInput";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+
 import {
   sportsOptions,
   stageOptions,
   statusOptions,
 } from "../constants/EventOptions";
+import { useEvents } from "../contexts/EventContext";
+import { useNavigate } from "react-router-dom";
 
 export default function AddEventPage() {
+  const { addEvent } = useEvents();
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
@@ -59,7 +66,13 @@ export default function AddEventPage() {
     return true;
   };
   const onSubmit = (data: Event) => {
-    console.log("Form Submitted ", data);
+    try {
+      addEvent(data);
+      toast.success(`Event added successfully!`);
+      navigate("/");
+    } catch (err) {
+      toast.error("Failed to add event. Please try again.");
+    }
   };
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md space-y-6 my-12 lg:px-12">

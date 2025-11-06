@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { EventsData, Event } from "../types/Event";
 import { useFetch } from "../hooks/useFetch";
 import { nanoid } from "nanoid";
@@ -8,6 +8,7 @@ interface EventContextType {
   loading: boolean;
   error: string | null;
   getEventById: (id: string) => Event | undefined;
+  addEvent: (event: Event) => void;
 }
 
 const EventContext = createContext<EventContextType | undefined>(undefined);
@@ -16,29 +17,38 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { data, loading, error } = useFetch<EventsData>("/data/events.json");
+  const [events, setEvents] = useState<Event[] | null>(null);
 
-  const { events, getEventById } = useMemo(() => {
-    if (!data?.data) {
-      return {
-        events: null,
-        getEventById: (_id: string) => undefined,
-      };
-    }
-
+  useEffect(() => {
+    if (!data?.data) return;
     const eventsArray: Event[] = data.data.map((event) => ({
       ...event,
       id: nanoid(),
     }));
 
-    const eventsMap = new Map(eventsArray.map((item) => [item.id, item]));
+    setEvents(eventsArray);
+  }, [data]);
 
+  const { getEventById } = useMemo(() => {
+    if (!events) {
+      return {
+        eventsMap: new Map(),
+        getEventById: (_id: string) => undefined,
+      };
+    }
+    const eventsMap = new Map(events.map((item) => [item.id, item]));
     const getEventById = (id: string) => eventsMap.get(id);
 
     return {
-      events: eventsArray,
+      eventsMap,
       getEventById,
     };
-  }, [data]);
+  }, [events]);
+
+  const addEvent = (newEvent: Event) => {
+    const event: Event = { ...newEvent, id: nanoid() };
+    setEvents((prev) => (prev ? [...prev, event] : [event]));
+  };
 
   const value = useMemo(
     () => ({
@@ -46,10 +56,10 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
       loading,
       error,
       getEventById,
+      addEvent,
     }),
     [events, loading, error, getEventById]
   );
-
   return (
     <EventContext.Provider value={value}>{children}</EventContext.Provider>
   );
