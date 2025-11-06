@@ -13,7 +13,8 @@ export default function AddEventPage() {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { errors, isValid },
+    watch,
   } = useForm<Event>({
     mode: "onChange",
     defaultValues: {
@@ -34,10 +35,32 @@ export default function AddEventPage() {
       status: "",
     },
   });
+  const status = watch("status");
+
+  const validateStatus = (statusValue?: string, matchDate?: string) => {
+    if (!matchDate) return "Please select a match date first";
+
+    const today = new Date();
+    const match = new Date(matchDate);
+
+    switch (statusValue) {
+      case "Scheduled":
+        if (match < today) return "Scheduled cannot be set for past matches";
+        break;
+      case "Live":
+        if (match.toDateString() !== today.toDateString())
+          return "Live can only be set for todays match";
+        break;
+      case "Played":
+        if (match > today) return "Completed cannot be set for future matches";
+        break;
+    }
+
+    return true;
+  };
   const onSubmit = (data: Event) => {
     console.log("Form Submitted ", data);
   };
-
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md space-y-6 my-12 lg:px-12">
       <h2 className="text-2xl font-bold text-center">Add New Event</h2>
@@ -62,7 +85,7 @@ export default function AddEventPage() {
             required
             type="date"
             placeholder="YYYY-MM-DD"
-            {...register("dateVenue")}
+            {...register("dateVenue", { required: true })}
           />
           <Input
             label="Time"
@@ -75,22 +98,43 @@ export default function AddEventPage() {
             label="Status"
             options={statusOptions}
             required
-            {...register("status")}
+            {...register("status", {
+              required: true,
+              validate: (value) => validateStatus(value, watch("dateVenue")),
+            })}
+            error={errors.status?.message}
           />
+
           <SelectInput
             label="Stage"
             options={stageOptions}
             required
-            {...register("stage.name")}
+            {...register("stage.name", { required: true })}
           />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Input
             label="Home Team Score"
             type="number"
+            isDisabled={status === "Scheduled" || status === "Postponed"}
             {...register("result.homeGoals")}
+            error={
+              status === "Scheduled" || status === "Postponed"
+                ? "Scores can only be entered after the match starts"
+                : ""
+            }
           />
-          <Input label="Away Team Score" {...register("result.awayGoals")} />
+
+          <Input
+            label="Away Team Score"
+            {...register("result.awayGoals")}
+            isDisabled={status === "Scheduled" || status === "Postponed"}
+            error={
+              status === "Scheduled" || status === "Postponed"
+                ? "Scores can only be entered after the match starts"
+                : ""
+            }
+          />
         </div>
         <Button disabled={!isValid} type="submit">
           Add Event

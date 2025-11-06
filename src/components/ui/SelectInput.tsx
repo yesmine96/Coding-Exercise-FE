@@ -4,12 +4,14 @@ interface SelectInputProps {
   label: string;
   options: string[];
   required?: boolean;
+  error?: string;
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
   label,
   options,
   required = false,
+  error,
   ...props
 }) => {
   return (
@@ -32,6 +34,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
           </option>
         ))}
       </select>
+      {error && <span className="text-xs text-red-500">{error}</span>}
     </div>
   );
 };

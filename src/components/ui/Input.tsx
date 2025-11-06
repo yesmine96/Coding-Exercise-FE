@@ -1,12 +1,14 @@
 // Input.tsx
 import React from "react";
 import type { InputHTMLAttributes } from "react";
+import { cn } from "../../utils/cn";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   required?: boolean;
   type?: string;
+  isDisabled?: boolean;
   className?: string;
 }
 
@@ -14,8 +16,10 @@ const Input: React.FC<InputProps> = ({
   label,
   error,
   required,
-  className,
   type = "text",
+  isDisabled = false,
+  className,
+
   ...props
 }) => {
   return (
@@ -25,9 +29,17 @@ const Input: React.FC<InputProps> = ({
         {required && <span>*</span>}
       </label>
       <input
-        className={`block w-full h-3 px-1 py-4 text-sm font-bold text-black bg-white border focus:border-blue-500 ${className}`}
-        type={type}
         {...props}
+        className={cn(
+          "block w-full h-3 px-1 py-4 text-sm font-bold text-black bg-white border focus:border-blue-500",
+          isDisabled
+            ? "bg-gray-100 text-gray-500 cursor-not-allowed"
+            : "bg-white",
+
+          className
+        )}
+        type={type}
+        disabled={isDisabled}
       />
 
       {error && <span className="text-xs text-red-500">{error}</span>}

@@ -8,7 +8,7 @@ export const stageOptions = [
 ];
 
 export const sportsOptions = [
-  "Soccer",
+  "Football",
   "Basketball",
   "American Football",
   "Baseball",
