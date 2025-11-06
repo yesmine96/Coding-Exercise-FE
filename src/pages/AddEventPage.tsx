@@ -74,6 +74,7 @@ export default function AddEventPage() {
       toast.error("Failed to add event. Please try again.");
     }
   };
+
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md space-y-6 my-12 lg:px-12">
       <h2 className="text-2xl font-bold text-center">Add New Event</h2>
@@ -86,11 +87,35 @@ export default function AddEventPage() {
         />
         <Input
           label="Competition Name"
-          {...register("originCompetitionName")}
+          {...register("originCompetitionName", {
+            pattern: {
+              value: /^[A-Za-z\s]+$/,
+              message: "Only letters are allowed",
+            },
+          })}
+          error={errors.originCompetitionName?.message}
         />
         <div className="grid grid-cols-2 gap-4">
-          <Input label="Home Team" {...register("homeTeam.abbreviation")} />
-          <Input label="Away Team" {...register("awayTeam.abbreviation")} />
+          <Input
+            label="Home Team"
+            {...register("homeTeam.abbreviation", {
+              pattern: {
+                value: /^[A-Za-z\s]+$/,
+                message: "Only letters are allowed",
+              },
+            })}
+            error={errors.homeTeam?.abbreviation?.message}
+          />
+          <Input
+            label="Away Team"
+            {...register("awayTeam.abbreviation", {
+              pattern: {
+                value: /^[A-Za-z\s]+$/,
+                message: "Only letters are allowed",
+              },
+            })}
+            error={errors.awayTeam?.abbreviation?.message}
+          />
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Input
@@ -130,23 +155,41 @@ export default function AddEventPage() {
             label="Home Team Score"
             type="number"
             isDisabled={status === "Scheduled" || status === "Postponed"}
-            {...register("result.homeGoals")}
+            {...register("result.homeGoals", {
+              valueAsNumber: true,
+              validate: (value) =>
+                value == null || Number.isNaN(value)
+                  ? true
+                  : Number.isInteger(value) ||
+                    "Score must be an integer, no decimals allowed!",
+            })}
             error={
               status === "Scheduled" || status === "Postponed"
                 ? "Scores can only be entered after the match starts"
-                : ""
+                : errors.result?.homeGoals?.message
             }
+            step="1"
+            min={0}
           />
 
           <Input
             label="Away Team Score"
-            {...register("result.awayGoals")}
+            {...register("result.awayGoals", {
+              valueAsNumber: true,
+              validate: (value) =>
+                value == null || Number.isNaN(value)
+                  ? true
+                  : Number.isInteger(value) ||
+                    "Score must be an integer, no decimals allowed!",
+            })}
             isDisabled={status === "Scheduled" || status === "Postponed"}
             error={
               status === "Scheduled" || status === "Postponed"
                 ? "Scores can only be entered after the match starts"
-                : ""
+                : errors.result?.awayGoals?.message
             }
+            step="1"
+            min={0}
           />
         </div>
         <Button disabled={!isValid} type="submit">
