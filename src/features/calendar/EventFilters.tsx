@@ -40,7 +40,9 @@ export default function EventFilters() {
           name="status"
         />
       </div>
-      <Button onClick={applyFilters}>Filter</Button>
+      <Button variant="secondary" onClick={applyFilters}>
+        Filter
+      </Button>
       <Button onClick={resetFilters}>Reset</Button>
     </div>
   );

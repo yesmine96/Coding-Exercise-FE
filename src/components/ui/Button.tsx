@@ -2,7 +2,6 @@ import React from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
-// Define props type
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   disabled?: boolean;
@@ -21,7 +20,8 @@ const Button: React.FC<ButtonProps> = ({
   const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {
     primary:
       "bg-primary text-white hover:bg-white hover:text-primary border-primary hover:border-primary",
-    secondary: "bg-gray-500 text-white hover:bg-gray-600",
+    secondary:
+      "bg-secondary text-white hover:bg-white border-secondary hover:text-secondary hover:border-secondary",
   };
   const sizes: Record<NonNullable<ButtonProps["size"]>, string> = {
     sm: "px-3 py-1 text-sm",

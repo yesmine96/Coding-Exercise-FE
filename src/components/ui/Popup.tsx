@@ -1,5 +1,5 @@
-import clsx from "clsx";
 import React, { useRef } from "react";
+import { cn } from "../../utils/cn";
 
 interface PopupProps {
   open: boolean;
@@ -28,18 +28,20 @@ const Popup: React.FC<PopupProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 w-full"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(0,0,0,0.4)] w-full"
       ref={modalRef}
       onClick={handleClose}
     >
       <div
-        className={clsx(
-          "bg-white rounded-xl p-6 shadow-lg lg:w-1/3 min-h-3/5 lg:max-h-1/2 relative",
+        className={cn(
+          "bg-white rounded-xl p-6 shadow-lg lg:w-1/3 min-h-3/5 h-96 lg:h-1/2 relative",
           classname
         )}
       >
         {title && (
-          <h2 className="text-xl font-semibold mb-4 text-center">{title}</h2>
+          <h2 className="text-xl font-semibold pb-4 pt-2 text-center">
+            {title}
+          </h2>
         )}
         <button
           onClick={onClose}

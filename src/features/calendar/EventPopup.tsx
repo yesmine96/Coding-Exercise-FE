@@ -23,7 +23,7 @@ const EventPopup: React.FC<EventPopupProps> = ({
       open={open}
       onClose={onClose}
       title={`Events on ${formatDate(selectedDate) ?? ""}`}
-      classname="lg:w-82"
+      classname="lg:w-82 overflow-auto"
     >
       <div className="space-y-2">
         {events.length === 0 ? (
