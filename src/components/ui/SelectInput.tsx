@@ -19,13 +19,13 @@ const SelectInput: React.FC<SelectInputProps> = ({
 }) => {
   return (
     <div>
-      <label className="block text-sm font-medium">
+      <label className="block text-sm font-semibold ">
         {label} {required && <span className="text-red-500">*</span>}
       </label>
       <select
         {...props}
         required={required}
-        className="mt-1 block w-full px-1 py-3 text-sm font-bold text-black bg-white border focus:border-blue-500"
+        className="mt-1 block w-full px-1 py-3 text-sm font-bold text-black bg-white border focus:border-blue-500 min-w-38 h-12"
       >
         <option value="" disabled>
           Select {label?.toLowerCase() || placeholder?.toLowerCase()}

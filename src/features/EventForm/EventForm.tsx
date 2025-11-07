@@ -46,18 +46,22 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
   const status = watch("status");
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <SelectInput
-        label="Sport"
-        options={sportsOptions}
-        required
-        {...register("sport", { required: true })}
-      />
-      <Input
-        label="Competition Name"
-        {...register("originCompetitionName", validateLettersOnly)}
-        error={errors.originCompetitionName?.message}
-      />
-      <div className="grid grid-cols-2 gap-4">
+      <div className="pb-3">
+        <SelectInput
+          label="Sport"
+          options={sportsOptions}
+          required
+          {...register("sport", { required: true })}
+        />
+      </div>
+      <div className="pb-3">
+        <Input
+          label="Competition Name"
+          {...register("originCompetitionName", validateLettersOnly)}
+          error={errors.originCompetitionName?.message}
+        />
+      </div>
+      <div className="grid grid-cols-2 gap-4 pb-3">
         <Input
           label="Home Team"
           {...register("homeTeam.abbreviation", validateLettersOnly)}
@@ -74,7 +78,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           error={errors.awayTeam?.abbreviation?.message}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 pb-3">
         <Input
           label="Date"
           required
@@ -96,6 +100,8 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           type="time"
           {...register("timeVenueUTC")}
         />
+      </div>
+      <div className="grid grid-cols-2 gap-4 pb-3">
         <SelectInput
           label="Status"
           options={statusOptions}
@@ -106,7 +112,6 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           })}
           error={errors.status?.message}
         />
-
         <SelectInput
           label="Stage"
           options={stageOptions}
@@ -114,11 +119,11 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           {...register("stage.name", { required: true })}
         />
       </div>
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 pb-3">
         <Input
           label="Home Team Score"
           type="number"
-          isDisabled={status === "Scheduled" || status === "Postponed"}
+          isDisabled={status === "scheduled" || status === "postponed"}
           {...register("result.homeGoals", {
             valueAsNumber: true,
             validate: validateScoreWithStatus(status),
@@ -135,7 +140,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
             valueAsNumber: true,
             validate: validateScoreWithStatus(status),
           })}
-          isDisabled={status === "Scheduled" || status === "Postponed"}
+          isDisabled={status === "scheduled" || status === "postponed"}
           error={errors.result?.awayGoals?.message}
           step="1"
           min={0}

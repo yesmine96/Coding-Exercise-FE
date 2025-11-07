@@ -24,14 +24,14 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex flex-col">
-      <label className="text-sm font-semibold text-black mb-1">
+      <label className="text-sm font-semibold mb-1">
         {label}
-        {required && <span>*</span>}
+        {required && <span className="text-red-500">*</span>}
       </label>
       <input
         {...props}
         className={cn(
-          "block w-full h-3 px-1 py-4 text-sm font-bold text-black bg-white border focus:border-blue-500",
+          "block min-w-36 h-10 px-1 py-4 text-sm font-bold text-black bg-white border focus:border-blue-500",
           isDisabled
             ? "bg-gray-100 text-gray-500 cursor-not-allowed"
             : "bg-white",

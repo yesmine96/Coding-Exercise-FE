@@ -19,7 +19,7 @@ export default function AddEventPage() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white rounded-xl shadow-md space-y-6 my-12 lg:px-12">
+    <div className="max-w-sm lg:max-w-3xl xl:max-w-lg mx-auto px-6 pb-6 lg:p-6 bg-white rounded-xl shadow-md space-y-6 my-12 lg:px-12">
       <h2 className="text-2xl font-bold text-center">Add New Event</h2>
       <EventForm onSubmit={handleAddEvent} submitLabel="Add Event" />
     </div>

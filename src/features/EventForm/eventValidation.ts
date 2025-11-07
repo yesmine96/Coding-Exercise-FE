@@ -4,14 +4,14 @@ export const validateStatus = (statusValue?: string, matchDate?: string) => {
   const match = new Date(matchDate);
 
   switch (statusValue) {
-    case "Scheduled":
+    case "scheduled":
       if (match < today) return "Scheduled cannot be set for past matches";
       break;
-    case "Live":
+    case "live":
       if (match.toDateString() !== today.toDateString())
         return "Live can only be set for today's match";
       break;
-    case "Played":
+    case "played":
       if (match > today) return "Completed cannot be set for future matches";
       break;
   }
@@ -27,7 +27,7 @@ export const validateLettersOnly = {
 };
 export const validateScoreWithStatus =
   (status?: string) => (value?: number) => {
-    if (status === "Scheduled" || status === "Postponed") {
+    if (status === "scheduled" || status === "postponed") {
       return "Scores can only be entered after the match starts";
     }
 
