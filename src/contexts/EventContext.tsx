@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import type { EventsData, Event } from "../types/Event";
 import { useFetch } from "../hooks/useFetch";
 import { nanoid } from "nanoid";
@@ -8,7 +15,7 @@ export type EventFilters = {
   status?: string;
 };
 interface EventContextType {
-  events: Event[] | null;
+  events: Event[];
   filters: EventFilters;
   filteredEvents: Event[];
   loading: boolean;
@@ -25,14 +32,25 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const { data, loading, error } = useFetch<EventsData>("/data/events.json");
-  const [events, setEvents] = useState<Event[] | null>(null);
+  const [events, setEvents] = useState<Event[]>([]);
   const [filters, setFilters] = useState<EventFilters>({
     sport: "",
     status: "",
   });
 
+  // Load events from localStorage or initialize from JSON
   useEffect(() => {
     if (!data?.data) return;
+    const stored = localStorage.getItem("events_data");
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        setEvents(parsed);
+        return;
+      } catch (err) {
+        console.error("Failed to parse stored events:", err);
+      }
+    }
     const eventsArray: Event[] = data.data.map((event) => ({
       ...event,
       id: nanoid(),
@@ -41,34 +59,37 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
     setEvents(eventsArray);
   }, [data]);
 
-  const { getEventById } = useMemo(() => {
-    if (!events) {
-      return {
-        eventsMap: new Map(),
-        getEventById: (_id: string) => undefined,
-      };
+  // Sync events to localStorage whenever events change
+  useEffect(() => {
+    if (events.length > 0) {
+      localStorage.setItem("events_data", JSON.stringify(events));
     }
-    const eventsMap = new Map(events.map((item) => [item.id, item]));
-    const getEventById = (id: string) => eventsMap.get(id);
-
-    return {
-      eventsMap,
-      getEventById,
-    };
   }, [events]);
+
+  const eventsMap = useMemo(
+    () => new Map(events.map((event) => [event.id, event])),
+    [events]
+  );
+  const getEventById = useCallback(
+    (id: string) => eventsMap.get(id),
+    [eventsMap]
+  );
 
   const addEvent = (newEvent: Event) => {
     const event: Event = { ...newEvent, id: nanoid() };
     setEvents((prev) => (prev ? [...prev, event] : [event]));
   };
+
   const filteredEvents = useMemo(() => {
     if (!events) return [];
+
     return events?.filter((event) => {
       if (filters.sport && event.sport !== filters.sport) return false;
       if (filters.status && event.status !== filters.status) return false;
       return true;
     });
   }, [events, filters]);
+
   const updateFilter = (newFilters: Partial<EventFilters>) => {
     setFilters((prev) => ({ ...prev, ...newFilters }));
   };
