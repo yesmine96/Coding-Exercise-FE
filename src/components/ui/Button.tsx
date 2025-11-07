@@ -5,7 +5,7 @@ import { cn } from "../../utils/cn";
 // Define props type
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
   variant?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
 }
@@ -15,8 +15,7 @@ const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "md",
   className = "",
-  disabled,
-
+  disabled = false,
   ...props
 }) => {
   const variants: Record<NonNullable<ButtonProps["variant"]>, string> = {

@@ -1,10 +1,12 @@
 import React from "react";
 
-interface SelectInputProps {
-  label: string;
+interface SelectInputProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
   options: string[];
   required?: boolean;
   error?: string;
+  placeholder?: string;
 }
 
 const SelectInput: React.FC<SelectInputProps> = ({
@@ -12,6 +14,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   options,
   required = false,
   error,
+  placeholder,
   ...props
 }) => {
   return (
@@ -25,7 +28,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
         className="mt-1 block w-full px-1 py-3 text-sm font-bold text-black bg-white border focus:border-blue-500"
       >
         <option value="" disabled>
-          Select {label.toLowerCase()}
+          Select {label?.toLowerCase() || placeholder?.toLowerCase()}
         </option>
 
         {options.map((option) => (

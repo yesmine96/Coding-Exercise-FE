@@ -3,20 +3,21 @@ import Day from "./Day";
 import EventPopup from "./EventPopup";
 import { usePopup } from "../../hooks/usePopup";
 import { useEvents } from "../../contexts/EventContext";
-import type { CalendarEvent } from "../../types/Event";
+import type { CalendarEvent, Event } from "../../types/Event";
 
 interface CalendarProps {
   year: number;
   month: number;
+  events?: Event[];
 }
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-const Calendar: React.FC<CalendarProps> = ({ year, month }) => {
+const Calendar: React.FC<CalendarProps> = ({ year, month, events }) => {
   const popup = usePopup();
   const [selectedEvents, setSelectedEvents] = useState<CalendarEvent[]>([]);
   const [selectedDate, setSelectedDate] = useState<string>("");
 
-  const { events, loading, error } = useEvents();
+  const { loading, error } = useEvents();
 
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
