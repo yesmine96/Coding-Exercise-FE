@@ -21,8 +21,8 @@ export default function EventFilters() {
     updateFilter(localFilters);
   };
   return (
-    <div className="flex flex-col md:flex-row gap-4  mb-8 p-4 rounded-lg shadow-md lg:w-112">
-      <div className="flex-1">
+    <div className="flex flex-wrap -mx-2 gap-4  mb-8 p-4 rounded-lg shadow-md lg:w-134">
+      <div>
         <SelectInput
           value={localFilters.sport}
           placeholder="Sport"
@@ -31,7 +31,7 @@ export default function EventFilters() {
           name="sport"
         />
       </div>
-      <div className="flex-1">
+      <div>
         <SelectInput
           value={localFilters.status}
           placeholder="Status"
