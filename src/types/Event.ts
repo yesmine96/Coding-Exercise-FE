@@ -20,7 +20,7 @@ export interface Event {
   dateVenue: string;
   homeTeam?: Team;
   awayTeam?: Team;
-  result?: Result;
+  result?: Result | null;
   sport: string;
   stage?: Stage;
   id?: string;

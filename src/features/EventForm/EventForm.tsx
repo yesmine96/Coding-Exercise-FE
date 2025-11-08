@@ -39,7 +39,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
         abbreviation: "",
       },
       stage: { name: "" },
-      result: {},
+      result: null,
       status: "",
     },
   });

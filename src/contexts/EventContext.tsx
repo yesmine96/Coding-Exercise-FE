@@ -9,6 +9,7 @@ import {
 import type { EventsData, Event } from "../types/Event";
 import { useFetch } from "../hooks/useFetch";
 import { nanoid } from "nanoid";
+import { nullIfEmpty } from "../utils/nullifyEmptyObjects";
 
 export type EventFilters = {
   sport?: string;
@@ -77,7 +78,8 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const addEvent = (newEvent: Event) => {
     const event: Event = { ...newEvent, id: nanoid() };
-    setEvents((prev) => (prev ? [...prev, event] : [event]));
+    const cleanedData = nullIfEmpty(event) as Event;
+    setEvents((prev) => (prev ? [...prev, cleanedData] : [event]));
   };
 
   const filteredEvents = useMemo(() => {
