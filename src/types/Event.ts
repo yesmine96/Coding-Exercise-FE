@@ -40,3 +40,7 @@ export type CalendarEvent = Pick<
   | "stage"
   | "id"
 >;
+export type EventFilters = {
+  sport?: string;
+  status?: string;
+};

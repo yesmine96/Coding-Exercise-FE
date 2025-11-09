@@ -6,15 +6,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { EventsData, Event } from "../types/Event";
-import { useFetch } from "../hooks/useFetch";
+import type { EventsData, Event, EventFilters } from "../types/Event";
+import { useCachedFetch } from "../hooks/useCachedFetch";
 import { nanoid } from "nanoid";
 import { nullIfEmpty } from "../utils/nullifyEmptyObjects";
 
-export type EventFilters = {
-  sport?: string;
-  status?: string;
-};
 interface EventContextType {
   events: Event[];
   filters: EventFilters;
@@ -32,32 +28,24 @@ const EventContext = createContext<EventContextType | undefined>(undefined);
 export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { data, loading, error } = useFetch<EventsData>("/data/events.json");
+  const mapWithIds = useCallback(
+    (json: EventsData): Event[] =>
+      json.data.map((item) => ({ ...item, id: nanoid() })),
+    []
+  );
+  const { data, loading, error } = useCachedFetch<EventsData, Event[]>(
+    "/data/events.json",
+    "events_data",
+    mapWithIds
+  );
   const [events, setEvents] = useState<Event[]>([]);
   const [filters, setFilters] = useState<EventFilters>({
     sport: "",
     status: "",
   });
-
-  // Load events from localStorage or initialize from JSON
   useEffect(() => {
-    if (!data?.data) return;
-    const stored = localStorage.getItem("events_data");
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored);
-        setEvents(parsed);
-        return;
-      } catch (err) {
-        console.error("Failed to parse stored events:", err);
-      }
-    }
-    const eventsArray: Event[] = data.data.map((event) => ({
-      ...event,
-      id: nanoid(),
-    }));
-
-    setEvents(eventsArray);
+    if (!data) return;
+    setEvents(data);
   }, [data]);
 
   // Sync events to localStorage whenever events change
@@ -71,6 +59,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
     () => new Map(events.map((event) => [event.id, event])),
     [events]
   );
+
   const getEventById = useCallback(
     (id: string) => eventsMap.get(id),
     [eventsMap]
