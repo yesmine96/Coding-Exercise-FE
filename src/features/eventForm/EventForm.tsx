@@ -5,14 +5,14 @@ import {
   sportsOptions,
   stageOptions,
   statusOptions,
-} from "../../constants/EventOptions";
+} from "../../constants/EventOptions.constants";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
 import {
   validateLettersOnly,
   validateScoreWithStatus,
   validateStatus,
-} from "./eventValidation";
+} from "./EventValidation";
 
 type EventFormProps = { onSubmit: (data: Event) => void; submitLabel?: string };
 
@@ -30,10 +30,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
       timeVenueUTC: "",
       dateVenue: "",
       originCompetitionName: "",
-      homeTeam: {
-        officialName: "",
-        abbreviation: "",
-      },
+      homeTeam: null,
       awayTeam: {
         officialName: "",
         abbreviation: "",
@@ -126,7 +123,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           isDisabled={status === "scheduled" || status === "postponed"}
           {...register("result.homeGoals", {
             valueAsNumber: true,
-            validate: validateScoreWithStatus(status),
+            validate: validateScoreWithStatus(),
           })}
           error={errors.result?.homeGoals?.message}
           step="1"
@@ -138,7 +135,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
           type="number"
           {...register("result.awayGoals", {
             valueAsNumber: true,
-            validate: validateScoreWithStatus(status),
+            validate: validateScoreWithStatus(),
           })}
           isDisabled={status === "scheduled" || status === "postponed"}
           error={errors.result?.awayGoals?.message}

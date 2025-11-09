@@ -6,10 +6,11 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { EventsData, Event, EventFilters } from "../types/Event";
-import { useCachedFetch } from "../hooks/useCachedFetch";
+
 import { nanoid } from "nanoid";
-import { nullIfEmpty } from "../utils/nullifyEmptyObjects";
+import type { Event, EventFilters, EventsData } from "../../types/Event";
+import { useCachedFetch } from "../../hooks/useCachedFetch";
+import { nullIfEmpty } from "../../utils/nullifyEmptyObjects";
 
 interface EventContextType {
   events: Event[];
@@ -38,17 +39,18 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
     "events_data",
     mapWithIds
   );
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<Event[]>(data || []);
+
   const [filters, setFilters] = useState<EventFilters>({
     sport: "",
     status: "",
   });
+
   useEffect(() => {
     if (!data) return;
     setEvents(data);
   }, [data]);
 
-  // Sync events to localStorage whenever events change
   useEffect(() => {
     if (events.length > 0) {
       localStorage.setItem("events_data", JSON.stringify(events));
@@ -68,6 +70,7 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
   const addEvent = (newEvent: Event) => {
     const event: Event = { ...newEvent, id: nanoid() };
     const cleanedData = nullIfEmpty(event) as Event;
+    localStorage.setItem("events_data", JSON.stringify(events));
     setEvents((prev) => (prev ? [...prev, cleanedData] : [event]));
   };
 

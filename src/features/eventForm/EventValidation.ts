@@ -25,16 +25,10 @@ export const validateLettersOnly = {
     message: "Only letters are allowed",
   },
 };
-export const validateScoreWithStatus =
-  (status?: string) => (value?: number) => {
-    if (status === "scheduled" || status === "postponed") {
-      return "Scores can only be entered after the match starts";
-    }
+export const validateScoreWithStatus = () => (value?: number) => {
+  if (value == null || Number.isNaN(value)) return true;
 
-    if (value == null || Number.isNaN(value)) return true;
-
-    return (
-      Number.isInteger(value) ||
-      "Score must be an integer, no decimals allowed!"
-    );
-  };
+  return (
+    Number.isInteger(value) || "Score must be an integer, no decimals allowed!"
+  );
+};

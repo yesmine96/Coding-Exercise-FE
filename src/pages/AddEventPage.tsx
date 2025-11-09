@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
-import { useEvents } from "../contexts/EventContext";
-import { EventForm } from "../features/EventForm/EventForm";
+import { useEvents } from "../contexts/eventContext/EventContext";
+import { EventForm } from "../features/eventForm/EventForm";
 import type { Event } from "../types/Event";
 
 export default function AddEventPage() {

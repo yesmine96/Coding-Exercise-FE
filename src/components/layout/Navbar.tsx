@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../ui/Logo";
 import type { NavLinkType } from "../../types/nav";
@@ -11,29 +11,8 @@ const navLinks: NavLinkType[] = [
 
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const closeMenu = useCallback(() => setIsOpen(false), []);
   const toggleMenu = useCallback(() => setIsOpen((prev) => !prev), []);
-
-  useEffect(() => {
-    // Close mobile menu on window resize or Escape key press
-    const DESKTOP_BREAKPOINT = 768;
-
-    const handleResize = () => {
-      if (window.innerWidth >= DESKTOP_BREAKPOINT) closeMenu();
-    };
-    window.addEventListener("resize", handleResize);
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) closeMenu();
-    };
-    window.addEventListener("keydown", handleKey);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-      window.removeEventListener("keydown", handleKey);
-    };
-  }, [closeMenu]);
 
   return (
     <header

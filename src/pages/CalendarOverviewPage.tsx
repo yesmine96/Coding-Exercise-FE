@@ -1,4 +1,4 @@
-import { useEvents } from "../contexts/EventContext";
+import { useEvents } from "../contexts/eventContext/EventContext";
 import Calendar from "../features/calendar/Calendar";
 import CalendarHeader from "../features/calendar/CalendarHeader";
 import EventFilters from "../features/calendar/EventFilters";

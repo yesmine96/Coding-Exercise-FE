@@ -1,4 +1,5 @@
 export const statusOptions = ["scheduled", "live", "played", "postponed"];
+
 export const stageOptions = [
   "Group Stage",
   "Round of 16",

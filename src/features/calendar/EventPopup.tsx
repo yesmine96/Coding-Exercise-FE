@@ -18,6 +18,7 @@ const EventPopup: React.FC<EventPopupProps> = ({
   selectedDate,
 }) => {
   const navigate = useNavigate();
+
   return (
     <Popup
       open={open}
@@ -30,32 +31,32 @@ const EventPopup: React.FC<EventPopupProps> = ({
           <div className="text-sm text-gray-500">No events</div>
         ) : (
           <ul className="flex flex-col gap-2">
-            {events.map((ev, i) => {
-              const { homeTeam, awayTeam, isTBD } = getTeams(ev);
+            {events.map((event, i) => {
+              const { homeTeam, awayTeam, isTBD } = getTeams(event);
 
               return (
                 <li
                   key={i}
                   className="flex gap-2 items-start bg-gray-50 p-2 rounded shadow-sm cursor-pointer"
-                  onClick={() => navigate(`/event/${ev.id}`)}
+                  onClick={() => navigate(`/event/${event.id}`)}
                 >
                   <span className="w-2 h-2 bg-primary rounded-full mt-1" />
                   <div className="text-sm">
                     <div className="font-semibold text-gray-800">
-                      {ev.sport}
+                      {event.sport}
                     </div>
                     <div className="text-xs text-gray-600 hidden lg:flex lg:gap-1">
                       <span>
                         {homeTeam} vs {awayTeam}
                       </span>
-                      {isTBD && ev.stage?.name && (
+                      {isTBD && event.stage?.name && (
                         <span className="text-muted-foreground">
-                          ({ev.stage.name})
+                          ({event.stage.name})
                         </span>
                       )}
                     </div>
                     <div className="text-xs text-gray-600">
-                      {ev.timeVenueUTC.slice(0, 5)}
+                      {event.timeVenueUTC.slice(0, 5)}
                     </div>
                   </div>
                 </li>

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import Day from "./Day";
 import EventPopup from "./EventPopup";
 import { usePopup } from "../../hooks/usePopup";
-import { useEvents } from "../../contexts/EventContext";
+import { useEvents } from "../../contexts/eventContext/EventContext";
 import type { CalendarEvent, Event } from "../../types/Event";
 
 interface CalendarProps {
@@ -10,6 +10,7 @@ interface CalendarProps {
   month: number;
   events?: Event[];
 }
+
 const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 const Calendar: React.FC<CalendarProps> = ({ year, month, events }) => {

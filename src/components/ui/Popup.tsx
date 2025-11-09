@@ -54,4 +54,5 @@ const Popup: React.FC<PopupProps> = ({
     </div>
   );
 };
+
 export default Popup;
