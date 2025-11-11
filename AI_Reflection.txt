@@ -1,0 +1,98 @@
+AI Usage Reflection
+==================
+
+Project: Coding-Exercice-FE
+Author: Yesmine Ghorbel
+
+
+1. Parts written by me:
+
+Core application logic
+- Event Filtering: Filter events by sport type and match status.
+- Date Validation: Validate that event date matches its status.
+- Daily Event Limit: Show a maximum of 3 events per day; display a “more” button if there are extra events.
+- Form Validation: Use React Hook Form to validate user inputs.
+- Event Data Management: Manage event data using React Context API.
+- Data Persistence: Save event data to local storage for a set period.
+- Team Display: Handle cases where teams information is missing (TBD logic).
+
+UI/UX Design and Implementation
+- Calendar Layout: Calendar layout and responsive design.
+- Mobile Interaction: Mobile touch interaction patterns (tap day to see all events).
+- Navigation Bar: Navigation bar design and routing.
+- Color Scheme: Color scheme inspired by SportRadar branding.
+- Toast Notifications: Toast notification system for user feedback.
+- Filter Reset: Reset button functionality for the filter.
+
+State management
+- EventContext Setup: EventContext structure and provider setup.
+- Custom Hooks: Custom hooks for event operations (add, filter, get by ID).
+- Filter State: Filter state management and reset logic.
+
+Data handling
+- Caching Strategy: Caching strategy with expiration time.
+- Custom Fetch Hook: useCachedFetch custom hook logic.
+- Data Transformation: Data transformation from JSON to application state.
+- ID Generation: Event ID generation integration using nanoid.
+
+
+2. Parts influenced or assisted by AI:
+
+a) Development Environment Setup
+   - How AI helped: Guided the setup of ESLint and Prettier for a TypeScript + React project.
+   - How I evaluated: Tested ESLint and Prettier rules, ensured consistent formatting, and verified folder organization followed best practices.
+
+b) Project Structure
+  - How AI helped: Guided on the best practices for project structure.  
+  - How I evaluated: Researched and applied the structure that best fit the project.
+
+c) Performance Optimization
+   - How AI helped: Identified opportunities to use useMemo and useCallback in EventContext.
+   - How I evaluated: Implemented suggested optimizations and measured performance to confirm improvements without breaking functionality.
+
+d) Utility Functions
+   - How AI helped: Assisted in creating utility files such as `cn` (className merge) and `nullEmptyObject`.
+   - How I evaluated: Implemented and tested these utilities in the project, adapting them as needed and ensuring I fully understood their functionality.
+
+e) Data Structure Selection
+   - How AI helped: Compared Map vs Array.find() for event lookups.
+   - How I evaluated: Verified Map implementation provided faster lookups and maintained correctness.
+
+f) Unique ID Generation
+   - How AI helped: Suggested using nanoid and compared it with Math.random(), UUID, and Date.now().
+   - How I evaluated: Ensured IDs were unique and compatible with event data handling.
+
+g) Routing Strategy
+   - How AI helped: Recommended React Router v6 setup with nested routes and <Outlet />.
+   - How I evaluated: Tested navigation between pages and confirmed nested routes rendered correctly.
+
+h) Form Validation
+   - How AI helped: Compared Formik vs React Hook Form and suggested using React Hook Form.
+   - How I evaluated: Verified form behavior, validation rules, and type safety in the form.
+
+i) Error and Typing Fixes
+   - How AI helped: Assisted in resolving errors and TypeScript typing issues.
+   - How I evaluated: Confirmed all errors were fixed and types worked as intended.
+
+j) Styling
+   - How AI helped: Converted CSS to Tailwind CSS.
+   - How I evaluated: Checked visual appearance, responsiveness, and correctness of styles.
+
+k) Documentation
+   - How AI helped: Assisted in writing the README, including structure, styling, and tables.
+   - How I evaluated: Checked that the content was correct, clear, and well-structured.
+
+
+3. Technical decisions:
+- Using `nanoid` for unique IDs to prevent collisions.
+- Storing events in a Map for faster lookups.
+- Using React Context to manage shared state and avoid prop drilling.
+- Using Tailwind CSS for rapid responsive design.
+- Implementing generic filters and reset functionality for usability.
+
+
+4. One improvement if more time was available:
+- Adding unit tests.
+
+
+
