@@ -28,7 +28,5 @@ export const validateLettersOnly = {
 export const validateScoreWithStatus = () => (value?: number) => {
   if (value == null || Number.isNaN(value)) return true;
 
-  return (
-    Number.isInteger(value) || "Score must be an integer, no decimals allowed!"
-  );
+  return Number.isInteger(value) || "Score must be an integer, no decimals allowed!";
 };

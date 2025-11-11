@@ -34,13 +34,7 @@ export interface Stage {
 
 export type CalendarEvent = Pick<
   Event,
-  | "sport"
-  | "homeTeam"
-  | "awayTeam"
-  | "dateVenue"
-  | "timeVenueUTC"
-  | "stage"
-  | "id"
+  "sport" | "homeTeam" | "awayTeam" | "dateVenue" | "timeVenueUTC" | "stage" | "id"
 >;
 
 export type EventFilters = {

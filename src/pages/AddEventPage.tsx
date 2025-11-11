@@ -12,8 +12,8 @@ export default function AddEventPage() {
     try {
       addEvent(data);
       toast.success("Event added successfully!");
-      navigate("/");
-    } catch (err) {
+      void navigate("/");
+    } catch {
       toast.error("Failed to add event. Please try again.");
     }
   };

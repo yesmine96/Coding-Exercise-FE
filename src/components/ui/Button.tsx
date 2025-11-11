@@ -1,6 +1,6 @@
 import React from "react";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-import { cn } from "../../utils/cn";
+import { mergeClasses } from "../../utils/cn";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       disabled={disabled}
-      className={cn(
+      className={mergeClasses(
         "rounded font-semibold bg-transparent no-underline border border-transparent cursor-pointer ",
         variants[variant],
         sizes[size],

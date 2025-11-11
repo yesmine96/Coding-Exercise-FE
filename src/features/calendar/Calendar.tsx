@@ -57,9 +57,7 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, events }) => {
               className="min-h-26 border-b-1"
               onClick={() => {
                 const dayEvents =
-                  events?.filter(
-                    (event) => event.dateVenue === getDateString(day)
-                  ) ?? [];
+                  events?.filter((event) => event.dateVenue === getDateString(day)) ?? [];
                 setSelectedEvents(dayEvents);
                 setSelectedDate(getDateString(day));
                 popup.openPopup();
@@ -68,11 +66,7 @@ const Calendar: React.FC<CalendarProps> = ({ year, month, events }) => {
               <Day
                 key={index}
                 day={day}
-                events={
-                  events?.filter(
-                    (event) => event.dateVenue === getDateString(day)
-                  ) ?? []
-                }
+                events={events?.filter((event) => event.dateVenue === getDateString(day)) ?? []}
               />
             </div>
           ) : (

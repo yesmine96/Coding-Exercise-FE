@@ -1,10 +1,7 @@
 import { useState } from "react";
 import Button from "../../components/ui/Button";
 import SelectInput from "../../components/ui/SelectInput";
-import {
-  sportsOptions,
-  statusOptions,
-} from "../../constants/EventOptions.constants";
+import { sportsOptions, statusOptions } from "../../constants/EventOptions.constants";
 import { useEvents } from "../../contexts/eventContext/EventContext";
 import type { EventFilters } from "../../types/Event";
 
@@ -16,9 +13,7 @@ export default function EventFilters() {
     status: "",
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setLocalFilters((prev) => ({ ...prev, [name]: value }));
   };

@@ -11,14 +11,11 @@ interface DayProps {
 const Day: React.FC<DayProps> = ({ day, events }) => {
   const navigate = useNavigate();
   const displayedEvents = useMemo(() => events.slice(0, 3), [events]);
-  const viewEventDetails = (
-    event: CalendarEvent,
-    e: React.MouseEvent<HTMLElement>
-  ) => {
+  const viewEventDetails = (event: CalendarEvent, e: React.MouseEvent<HTMLElement>) => {
     const DESKTOP_BREAKPOINT = 768;
     if (window.innerWidth >= DESKTOP_BREAKPOINT) {
       e.stopPropagation();
-      navigate(`/event/${event.id}`);
+      void navigate(`/event/${event.id}`);
     }
   };
 
@@ -36,23 +33,17 @@ const Day: React.FC<DayProps> = ({ day, events }) => {
             >
               <span className="w-1 h-1 bg-primary rounded-full mt-1.5 xl:mt-2" />
               <div className="text-xs flex gap-1 flex-wrap">
-                <span className="font-semibold">
-                  {event.sport?.slice(0, 4)}
-                </span>
+                <span className="font-semibold">{event.sport?.slice(0, 4)}</span>
                 <span className="hidden xl:block">
                   {homeTeam} vs {awayTeam}
                 </span>
-                {isTBD && event.stage?.name && (
-                  <span className="hidden xl:block ">({event.stage.name})</span>
-                )}
+                {isTBD && event.stage?.name && <span className="hidden xl:block ">({event.stage.name})</span>}
               </div>
             </div>
           );
         })}
 
-        {events.length > 3 && (
-          <div className="text-xs mt-1 hover:font-semibold">more ...</div>
-        )}
+        {events.length > 3 && <div className="text-xs mt-1 hover:font-semibold">more ...</div>}
       </div>
     </div>
   );

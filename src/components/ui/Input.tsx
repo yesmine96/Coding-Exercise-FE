@@ -1,7 +1,6 @@
-// Input.tsx
 import React from "react";
 import type { InputHTMLAttributes } from "react";
-import { cn } from "../../utils/cn";
+import { mergeClasses } from "../../utils/cn";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -30,11 +29,9 @@ const Input: React.FC<InputProps> = ({
       </label>
       <input
         {...props}
-        className={cn(
+        className={mergeClasses(
           "block min-w-36 h-10 px-1 py-4 text-sm font-bold text-black bg-white border focus:border-blue-500",
-          isDisabled
-            ? "bg-gray-100 text-gray-500 cursor-not-allowed"
-            : "bg-white",
+          isDisabled ? "bg-gray-100 text-gray-500 cursor-not-allowed" : "bg-white",
 
           className
         )}

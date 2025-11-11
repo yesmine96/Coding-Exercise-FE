@@ -1,18 +1,10 @@
 import { useForm } from "react-hook-form";
 import type { Event } from "../../types/Event";
 import SelectInput from "../../components/ui/SelectInput";
-import {
-  sportsOptions,
-  stageOptions,
-  statusOptions,
-} from "../../constants/EventOptions.constants";
+import { sportsOptions, stageOptions, statusOptions } from "../../constants/EventOptions.constants";
 import Input from "../../components/ui/Input";
 import Button from "../../components/ui/Button";
-import {
-  validateLettersOnly,
-  validateScoreWithStatus,
-  validateStatus,
-} from "./EventValidation";
+import { validateLettersOnly, validateScoreWithStatus, validateStatus } from "./EventValidation";
 
 type EventFormProps = { onSubmit: (data: Event) => void; submitLabel?: string };
 
@@ -42,7 +34,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
   });
   const status = watch("status");
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={void handleSubmit(onSubmit)} className="space-y-4">
       <div className="pb-3">
         <SelectInput
           label="Sport"

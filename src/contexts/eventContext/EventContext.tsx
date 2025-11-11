@@ -1,37 +1,16 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 
 import { nanoid } from "nanoid";
 import type { Event, EventFilters, EventsData } from "../../types/Event";
 import { useCachedFetch } from "../../hooks/useCachedFetch";
 import { nullIfEmpty } from "../../utils/nullifyEmptyObjects";
-
-interface EventContextType {
-  events: Event[];
-  filters: EventFilters;
-  filteredEvents: Event[];
-  loading: boolean;
-  error: string | null;
-  getEventById: (id: string) => Event | undefined;
-  addEvent: (event: Event) => void;
-  updateFilter: (newFilters: Partial<EventFilters>) => void;
-  resetFilters: () => void;
-}
+import type { EventContextType } from "./ EventContext.types";
 
 const EventContext = createContext<EventContextType | undefined>(undefined);
 
-export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const EventProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const mapWithIds = useCallback(
-    (json: EventsData): Event[] =>
-      json.data.map((item) => ({ ...item, id: nanoid() })),
+    (json: EventsData): Event[] => json.data.map((item) => ({ ...item, id: nanoid() })),
     []
   );
   const { data, loading, error } = useCachedFetch<EventsData, Event[]>(
@@ -57,20 +36,13 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   }, [events]);
 
-  const eventsMap = useMemo(
-    () => new Map(events.map((event) => [event.id, event])),
-    [events]
-  );
+  const eventsMap = useMemo(() => new Map(events.map((event) => [event.id, event])), [events]);
 
-  const getEventById = useCallback(
-    (id: string) => eventsMap.get(id),
-    [eventsMap]
-  );
+  const getEventById = useCallback((id: string) => eventsMap.get(id), [eventsMap]);
 
   const addEvent = (newEvent: Event) => {
     const event: Event = { ...newEvent, id: nanoid() };
     const cleanedData = nullIfEmpty(event) as Event;
-    localStorage.setItem("events_data", JSON.stringify(events));
     setEvents((prev) => (prev ? [...prev, cleanedData] : [event]));
   };
 
@@ -101,11 +73,10 @@ export const EventProvider: React.FC<{ children: React.ReactNode }> = ({
       updateFilter,
       resetFilters,
     }),
-    [events, filteredEvents, loading, error, getEventById]
+
+    [events, filters, filteredEvents, loading, error, getEventById]
   );
-  return (
-    <EventContext.Provider value={value}>{children}</EventContext.Provider>
-  );
+  return <EventContext.Provider value={value}>{children}</EventContext.Provider>;
 };
 
 export const useEvents = (): EventContextType => {

@@ -9,9 +9,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
   return (
     <div className="py-16 flex items-center justify-center">
       <div className="bg-white rounded shadow-lg shadow p-4 lg:p-8 w-sm lg:w-xl bg-white min-h-72">
-        <h2 className="text-xl font-bold mb-2 text-center">
-          {event.originCompetitionName}
-        </h2>
+        <h2 className="text-xl font-bold mb-2 text-center">{event.originCompetitionName}</h2>
         <div className="text-gray-600 mb-4">
           <span className="font-semibold">Sport:</span> {event.sport}
         </div>
@@ -21,9 +19,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
         </div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex flex-col flex-1">
-            <span className="text-lg font-bold ">
-              {event.homeTeam?.abbreviation || "TBD"}
-            </span>
+            <span className="text-lg font-bold ">{event.homeTeam?.abbreviation || "TBD"}</span>
             <span className="text-xs">
               {event.homeTeam === null && "Depends on previous match"}
             </span>
@@ -34,9 +30,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event }) => {
             <span> {event.result?.awayGoals}</span>
           </span>
           <div className="flex flex-col flex-1 items-end">
-            <span className="text-lg font-bold ">
-              {event.awayTeam?.abbreviation || "TBD"}
-            </span>
+            <span className="text-lg font-bold ">{event.awayTeam?.abbreviation || "TBD"}</span>
 
             <span className="text-xs">
               {event.awayTeam === null && "Depends on previous match"}

@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import { NavLink } from "react-router-dom";
 import Logo from "../ui/Logo";
 import type { NavLinkType } from "../../types/nav";
-import { cn } from "../../utils/cn";
+import { mergeClasses } from "../../utils/cn";
 
 const navLinks: NavLinkType[] = [
   { label: "Calendar", href: "/" },
@@ -16,7 +16,7 @@ const Navbar: React.FC = () => {
 
   return (
     <header
-      className={cn(
+      className={mergeClasses(
         "bg-secondary text-white shadow-md z-50 fixed w-full",
         isOpen ? "h-screen" : "h-auto"
       )}
@@ -34,7 +34,7 @@ const Navbar: React.FC = () => {
                 key={link.href}
                 to={link.href}
                 className={({ isActive }) =>
-                  cn(
+                  mergeClasses(
                     "hover:text-primary text-white transition-colors duration-200",
                     isActive && "text-primary font-bold"
                   )
@@ -53,21 +53,20 @@ const Navbar: React.FC = () => {
             aria-expanded={isOpen}
           >
             <span
-              className={cn(
+              className={mergeClasses(
                 "block bg-primary w-full h-0.5 text-white transition-transform duration-300",
                 { "rotate-45 absolute top-1/2 -translate-y-1/2": isOpen }
               )}
             />
 
             <span
-              className={cn(
-                "block bg-primary w-full h-0.5 transition-all duration-300",
-                { hidden: isOpen }
-              )}
+              className={mergeClasses("block bg-primary w-full h-0.5 transition-all duration-300", {
+                hidden: isOpen,
+              })}
             />
 
             <span
-              className={cn(
+              className={mergeClasses(
                 "block bg-primary w-full h-0.5 transition-transform duration-300",
                 { "-rotate-45 absolute top-1/2 -translate-y-1/2": isOpen }
               )}
@@ -77,9 +76,7 @@ const Navbar: React.FC = () => {
       </nav>
 
       {/* Mobile Menu */}
-      <div
-        className={cn("md:hidden bg-secondary", isOpen ? "h-full" : "hidden")}
-      >
+      <div className={mergeClasses("md:hidden bg-secondary", isOpen ? "h-full" : "hidden")}>
         <div className="px-4 pt-2 pb-4 space-y-3 text-xl font-semibold">
           {navLinks.map((link) => (
             <NavLink
@@ -87,7 +84,7 @@ const Navbar: React.FC = () => {
               to={link.href}
               onClick={closeMenu}
               className={({ isActive }) =>
-                cn(
+                mergeClasses(
                   "block text-gray-200 hover:text-gray-400 border-t border-gray-800 py-4",
                   isActive && "text-primary font-bold"
                 )

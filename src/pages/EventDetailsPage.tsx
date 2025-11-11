@@ -5,18 +5,19 @@ import { useEffect } from "react";
 
 export default function EventDetailsPage() {
   const { id } = useParams();
-  const { getEventById } = useEvents();
+  const { getEventById, loading } = useEvents();
   const event = getEventById(id!);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!id || !event) {
-      navigate("/", { replace: true });
+    if ((!id || !event) && loading) {
+      void navigate("/", { replace: true });
+      return;
     }
-  }, [id, event]);
+  }, [id, event, loading, navigate]);
 
-  if (!event) {
+  if (loading) {
     return <div>Loading...</div>;
   }
-  return <>{event && <EventDetails event={event} />}</>;
+  return <div>{event && <EventDetails event={event} />}</div>;
 }
