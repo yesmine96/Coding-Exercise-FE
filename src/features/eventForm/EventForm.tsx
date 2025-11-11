@@ -34,7 +34,7 @@ export const EventForm = ({ onSubmit, submitLabel }: EventFormProps) => {
   });
   const status = watch("status");
   return (
-    <form onSubmit={void handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="pb-3">
         <SelectInput
           label="Sport"

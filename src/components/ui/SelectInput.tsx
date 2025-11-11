@@ -1,7 +1,6 @@
 import React from "react";
 
-interface SelectInputProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+interface SelectInputProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   options: string[];
   required?: boolean;

@@ -21,7 +21,10 @@ export default function EventFilters() {
   const applyFilters = () => {
     updateFilter(localFilters);
   };
-
+  const applyResetFilters = () => {
+    setLocalFilters({ sport: "", status: "" });
+    resetFilters();
+  };
   return (
     <div className="flex flex-wrap -mx-2 gap-4  mb-8 p-4 rounded-lg shadow-md lg:w-134">
       <div>
@@ -45,7 +48,7 @@ export default function EventFilters() {
       <Button variant="secondary" onClick={applyFilters}>
         Filter
       </Button>
-      <Button onClick={resetFilters}>Reset</Button>
+      <Button onClick={applyResetFilters}>Reset</Button>
     </div>
   );
 }

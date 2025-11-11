@@ -37,7 +37,9 @@ const Day: React.FC<DayProps> = ({ day, events }) => {
                 <span className="hidden xl:block">
                   {homeTeam} vs {awayTeam}
                 </span>
-                {isTBD && event.stage?.name && <span className="hidden xl:block ">({event.stage.name})</span>}
+                {isTBD && event.stage?.name && (
+                  <span className="hidden xl:block ">({event.stage.name})</span>
+                )}
               </div>
             </div>
           );
